@@ -13,12 +13,15 @@ builder.AddDependencyInjection();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseCors(opt =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    opt.AllowAnyOrigin();
+    opt.AllowAnyHeader();
+    opt.AllowAnyMethod();
+});
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseAuthorization();
 

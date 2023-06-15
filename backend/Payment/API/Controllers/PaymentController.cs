@@ -15,6 +15,11 @@ public class PaymentController : ControllerBase
         _paymentService = paymentService;
     }
 
+    /// <summary>
+    /// Endpoint para realizar uma transação
+    /// </summary>
+    /// <param name="paymentDTO"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<IActionResult> DoPayment([FromBody] PaymentDTO paymentDTO)
     {
@@ -28,13 +33,22 @@ public class PaymentController : ControllerBase
         return Ok(new { message = "payment realized." });
     }
 
-    [HttpGet("payments-filter-date")]
-    public async Task<IActionResult> GetPaymentsByReferenceDate([FromQuery] DateTime referenceDate)
+    /// <summary>
+    /// Endpoint para buscar transações por data de referencia e trazer o valor consolidado daquele dia
+    /// </summary>
+    /// <param name="referenceDate"></param>
+    /// <returns></returns>
+    [HttpGet("payments-filter-date/{referenceDate}")]
+    public async Task<IActionResult> GetPaymentsByReferenceDate([FromRoute] DateTime referenceDate)
     {
         var payments = await _paymentService.GetTransactionsByReferenceDate(referenceDate);
         return Ok(payments);
     }
 
+    /// <summary>
+    /// Endpoint para buscar todas as transações
+    /// </summary>
+    /// <returns></returns>
     [HttpGet("payments")]
     public async Task<IActionResult> GetAllPayments()
     {

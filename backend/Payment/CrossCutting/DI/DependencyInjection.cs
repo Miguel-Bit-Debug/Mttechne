@@ -12,6 +12,7 @@ public static class DependencyInjection
 {
     public static void AddDependencyInjection(this WebApplicationBuilder builder)
     {
+        builder.Services.AddCors();
         builder.Services.AddScoped<IMongoDbContext, MongoDbContext>();
         builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
         builder.Services.AddScoped<IPaymentService, PaymentService>();

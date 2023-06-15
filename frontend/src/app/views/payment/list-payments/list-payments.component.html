@@ -1,0 +1,14 @@
+<div>
+  <input type="date" placeholder="Data de referência" [(ngModel)]="referenceDate">
+  <button (click)="getPaymentsByReferenceDate(referenceDate)">Buscar transações</button>
+</div>
+
+<div *ngFor="let payment of payments.payments">
+  <p>{{ payment.desciption }}</p>
+  <p>{{ payment.paymentDate }}</p>
+  <p>{{ payment.paymentDate }}</p>
+  <p>{{ payment.paymentType == 1 ? "Crédito": "Débito" }}</p>
+</div>
+<p>{{ payments.totalConsolidatePayment }}</p>
+
+
