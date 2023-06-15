@@ -27,4 +27,18 @@ public class PaymentController : ControllerBase
 
         return Ok(new { message = "payment realized." });
     }
+
+    [HttpGet("payments-filter-date")]
+    public async Task<IActionResult> GetPaymentsByReferenceDate([FromQuery] DateTime referenceDate)
+    {
+        var payments = await _paymentService.GetTransactionsByReferenceDate(referenceDate);
+        return Ok(payments);
+    }
+
+    [HttpGet("payments")]
+    public async Task<IActionResult> GetAllPayments()
+    {
+        var payments = await _paymentService.GetAllTransactions();
+        return Ok(payments);
+    }
 }

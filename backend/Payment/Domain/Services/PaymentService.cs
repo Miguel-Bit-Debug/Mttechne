@@ -14,10 +14,22 @@ namespace Domain.Services
             _paymentRepository = paymentRepository;
         }
 
+        public async Task<IEnumerable<Payment>> GetAllTransactions()
+        {
+            var payments = await _paymentRepository.GetAllTransactions();
+            return payments;
+        }
+
+        public async Task<PaymentConsolidated> GetTransactionsByReferenceDate(DateTime referenceDate)
+        {
+            var payments = await _paymentRepository.GetTransactionsByReferenceDate(referenceDate.Date);
+            return payments;
+        }
+
         public async Task SaveTransaction(PaymentDTO paymentDTO)
         {
             var payment = new Payment(paymentDTO.Desciption,
-                                      paymentDTO.PaymentDate,
+                                      paymentDTO.PaymentDate.Date,
                                       paymentDTO.PaymentType,
                                       paymentDTO.PaymentAmount);
 
