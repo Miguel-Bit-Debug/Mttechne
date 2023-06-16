@@ -1,9 +1,7 @@
 ﻿using Domain.Enums;
-using Domain.Interfaces.Repositories;
 using Domain.Models;
 using InfraData.Repositories;
 using MongoDB.Driver;
-using MongoDB.Driver.Core.Operations;
 using Moq;
 using Xunit;
 
