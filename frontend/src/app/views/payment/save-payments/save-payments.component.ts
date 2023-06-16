@@ -22,5 +22,6 @@ export class SavePaymentsComponent {
                               this.paymentAmount);
 
     this._paymentService.doPayment(payment).subscribe((res) => { });
+    window.location.replace("/")
   }
 }
