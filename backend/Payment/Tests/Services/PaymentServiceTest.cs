@@ -4,11 +4,6 @@ using Domain.Interfaces.Services;
 using Domain.Models;
 using Domain.Services;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Tests.Services
@@ -39,11 +34,37 @@ namespace Tests.Services
 
             var result = await _paymentService.GetAllTransactions();
 
-            _paymentRepository.Verify(x => x.GetAllTransactions(), Times.Once);
 
+            _paymentRepository.Verify(x => x.GetAllTransactions(), Times.Once);
             Assert.Equal(payments.Count(), result.Count());
             Assert.True(result.All(p => payments.Contains(p)));
             Assert.IsType<List<Payment>>(result);
+        }
+
+        [Fact]
+        public async Task GetTransactionByReferenceDate_WithSuccess()
+        {
+            var payments = new List<Payment>
+            {
+                new Payment("teste1", DateTime.Now.AddDays(1), PaymentType.Debit, 100),
+                new Payment("teste2", DateTime.Now.AddDays(1), PaymentType.Credit, 100),
+                new Payment("teste3", DateTime.Now, PaymentType.Debit, 100),
+                new Payment("teste4", DateTime.Now, PaymentType.Credit, 10),
+            };
+
+
+            _paymentRepository.Setup(x => x.GetTransactionsByReferenceDate(DateTime.Now.AddDays(1).Date))
+                .ReturnsAsync(new PaymentConsolidated(payments, payments.Sum(x => x.PaymentAmount)));
+
+            var result = await _paymentService.GetTransactionsByReferenceDate(DateTime.Now.AddDays(1).Date);
+
+
+            _paymentRepository.Verify(x => x.GetTransactionsByReferenceDate(DateTime.Now.AddDays(1).Date), Times.Once);
+
+            Assert.Equal(payments.Sum(x => x.PaymentAmount), result.Payments.Sum(x => x.PaymentAmount));
+            Assert.Equal(payments.Count(), result.Payments.Count());
+            Assert.True(result.Payments.All(p => payments.Contains(p)));
+            Assert.IsType<PaymentConsolidated>(result);
         }
     }
 }
