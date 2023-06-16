@@ -8,4 +8,11 @@
 
 [Jornada do usuário](.attachments/Diagramdrawio.png)
 
-
+## Tecnologias usadas nesse repositório
+    - .NET (C#) 6.x
+    - Angular 16
+    - Xunit
+    - Typescript
+    - MongoDB | MongoDB Atlas
+    - HTML & SCSS
+    - Docker | Docker Compose
