@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Domain.DTOs;
+using Domain.Enums;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Domain.Models;
@@ -52,12 +53,10 @@ namespace Tests.Services
                 new Payment("teste4", DateTime.Now, PaymentType.Credit, 10),
             };
 
-
             _paymentRepository.Setup(x => x.GetTransactionsByReferenceDate(DateTime.Now.AddDays(1).Date))
                 .ReturnsAsync(new PaymentConsolidated(payments, payments.Sum(x => x.PaymentAmount)));
 
             var result = await _paymentService.GetTransactionsByReferenceDate(DateTime.Now.AddDays(1).Date);
-
 
             _paymentRepository.Verify(x => x.GetTransactionsByReferenceDate(DateTime.Now.AddDays(1).Date), Times.Once);
 
@@ -66,5 +65,24 @@ namespace Tests.Services
             Assert.True(result.Payments.All(p => payments.Contains(p)));
             Assert.IsType<PaymentConsolidated>(result);
         }
+
+        [Fact]
+        public async Task SaveTransaction_WithSuccess()
+        {
+            var payment = new Payment("teste1", DateTime.Now.AddDays(1).Date, PaymentType.Debit, 100) { Id = "1a2b3c" };
+
+            _paymentRepository.Setup(x => x.SaveTransaction(It.IsAny<Payment>())).Verifiable();
+
+            await _paymentService.SaveTransaction(new PaymentDTO()
+            {
+                Description = payment.Description,
+                PaymentAmount = payment.PaymentAmount,
+                PaymentType = payment.PaymentType,
+                PaymentDate = DateTime.Now.AddDays(1).Date,
+            });
+
+            _paymentRepository.Verify(x => x.SaveTransaction(It.IsAny<Payment>()), Times.Once);
+        }
+
     }
 }
