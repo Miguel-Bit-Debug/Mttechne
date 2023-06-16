@@ -8,6 +8,8 @@
     Caso queira utilizar local, execute o seguinte comando:
 
     docker-compose up
+    
+    Executando local a aplicação não terá dados no banco, será necessário adicionar.
 
 ![images.png](../.attachments/docker-compose.png)
 
@@ -15,7 +17,6 @@
     Será necessário trocar a string de conexão, como na imagem:
 
 ![images.png](../.attachments/string%20connection.png)
-
 
 
 ## Executar aplicação
