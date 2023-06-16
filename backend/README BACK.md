@@ -1,5 +1,3 @@
-# Projeto criado para participar do processo seletivo da Mttechne
-
 ## Requisitos da aplicação backend
     Visual Studio 2022 ou Visual Studio Code
     .NET 6.x (ou posterior)
