@@ -22,8 +22,10 @@ public class PaymentRepository : IPaymentRepository
 
     public async Task<PaymentConsolidated> GetTransactionsByReferenceDate(DateTime referenceDate)
     {
-        var payments = await _collection.Find(obj => obj.PaymentDate == referenceDate).ToListAsync();
+        var result = await _collection.FindAsync(obj => obj.PaymentDate == referenceDate);
+        var payments = await result.ToListAsync();
         decimal totalPaymentAmount = 0;
+
 
         foreach (var payment in payments)
         {

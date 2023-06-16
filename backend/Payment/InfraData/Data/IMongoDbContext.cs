@@ -2,7 +2,7 @@
 
 namespace Product.InfraData.Data
 {
-    public interface IMongoDbContext : IDisposable
+    public interface IMongoDbContext
     {
         IMongoCollection<T> Collection<T>();
     }
