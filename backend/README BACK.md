@@ -1,6 +1,22 @@
 ## Requisitos da aplicação backend
     Visual Studio 2022 ou Visual Studio Code
     .NET 6.x (ou posterior)
+    docker (opcional)
+
+## Observação:
+    Estou utilizando o banco de dados MongoDB na nuvem usando a plataforma MongoDB Atlas.
+    Caso queira utilizar local, execute o seguinte comando:
+
+    docker-compose up
+
+![images.png](../.attachments/docker-compose.png)
+
+## Observação:
+    Será necessário trocar a string de conexão, como na imagem:
+
+![images.png](../.attachments/string%20connection.png)
+
+
 
 ## Executar aplicação
     Visual Studio 2022
