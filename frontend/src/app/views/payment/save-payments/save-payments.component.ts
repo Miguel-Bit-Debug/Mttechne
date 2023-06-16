@@ -18,7 +18,7 @@ export class SavePaymentsComponent {
   public doPayment() {
     let payment = new Payment(this.description,
                               this.paymentDate,
-                              this.paymentType,
+                              Number(this.paymentType),
                               this.paymentAmount);
 
     this._paymentService.doPayment(payment).subscribe((res) => { });

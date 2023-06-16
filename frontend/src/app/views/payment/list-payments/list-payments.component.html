@@ -8,10 +8,10 @@
   <app-navbar></app-navbar>
 </div>
 
-<div class="table-payments" *ngIf="paymentConsolidated != null">
-  <p>Saldo consolidado do dia: {{ paymentConsolidated.totalConsolidatePayment }} </p>
+<div class="table-payments" *ngIf="payments != null || paymentConsolidated != null">
+  <p *ngIf="paymentConsolidated != null">Saldo consolidado do dia: R$ {{ paymentConsolidated.totalConsolidatePayment }} </p>
 
-  <table mat-table [dataSource]="paymentConsolidated.payments" class="mat-elevation-z8">
+  <table mat-table [dataSource]="paymentConsolidated != null ? paymentConsolidated.payments : payments" class="mat-elevation-z8">
 
     <ng-container matColumnDef="Description">
       <th mat-header-cell *matHeaderCellDef> Descrição </th>
@@ -29,7 +29,7 @@
     </ng-container>
 
     <ng-container matColumnDef="PaymentAmount">
-      <th mat-header-cell *matHeaderCellDef> Valor </th>
+      <th mat-header-cell *matHeaderCellDef> Valor (R$) </th>
       <td mat-cell *matCellDef="let element"> {{element.paymentAmount }} </td>
     </ng-container>
 

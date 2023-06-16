@@ -13,7 +13,7 @@ export class PaymentService {
   constructor(private http: HttpClient) { }
 
   public getPaymentsByReferenceDate(referenceDate: any): Observable<PaymentConsolidated> {
-    return this.http.get<PaymentConsolidated>(`${this.baseUrl}/api/Payment/payments-filter-date/${referenceDate}T00:00:00.000+00:00`);
+    return this.http.get<PaymentConsolidated>(`${this.baseUrl}/api/Payment/payments-filter-date/${referenceDate}`);
   }
 
   public doPayment(payment: Payment): Observable<any> {
@@ -21,5 +21,9 @@ export class PaymentService {
     { headers: {
       'Content-Type': 'application/json'}
     })
+  }
+
+  public getAllPayments(): Observable<Payment[]> {
+    return this.http.get<Payment[]>(`${this.baseUrl}/api/Payment/payments`)
   }
 }
