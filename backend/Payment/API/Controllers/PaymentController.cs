@@ -27,6 +27,11 @@ public class PaymentController : ControllerBase
             return BadRequest(ModelState.Select(x => x.Value?.Errors).ToList());
         }
 
+        if (payment == null)
+        {
+            return BadRequest(new { message = "invalid payload" });
+        }
+
         await _paymentService.SaveTransaction(payment);
 
         return Ok(new { message = "payment realized." });
