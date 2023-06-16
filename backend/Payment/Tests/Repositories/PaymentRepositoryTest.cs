@@ -3,29 +3,26 @@ using Domain.Interfaces.Repositories;
 using Domain.Models;
 using InfraData.Repositories;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Operations;
 using Moq;
-using Product.InfraData.Data;
 using Xunit;
 
-namespace Tests.Repositories
+namespace Product.InfraData.Data.Tests
 {
-    public class PaymentRepositoryTest
+    public class MongoRepositoryTests
     {
-        private readonly Mock<IMongoCollection<Payment>> _mongoCollection;
-        private readonly Mock<IMongoDbContext> _mongoDbContext;
-        private readonly Mock<IAsyncCursor<Payment>> _cursorPayments;
-        private readonly Mock<IAsyncCursor<PaymentConsolidated>> _cursorPaymentConsolidated;
-        private readonly IPaymentRepository _paymentRepository;
+        private readonly Mock<IMongoCollection<Payment>> _collectionMock;
+        private readonly PaymentRepository _paymentRepository;
+        private readonly Mock<IAsyncCursor<Payment>> _asyncCursorMock;
 
-        public PaymentRepositoryTest()
+        public MongoRepositoryTests()
         {
-            _mongoCollection = new Mock<IMongoCollection<Payment>>();
-            _cursorPayments = new Mock<IAsyncCursor<Payment>>();
-            _cursorPaymentConsolidated = new Mock<IAsyncCursor<PaymentConsolidated>>();
-            _mongoDbContext = new Mock<IMongoDbContext>();
+            _collectionMock = new Mock<IMongoCollection<Payment>>();
+            var dbContextMock = new Mock<IMongoDbContext>();
+            _asyncCursorMock = new Mock<IAsyncCursor<Payment>>();
+            dbContextMock.Setup(d => d.Collection<Payment>()).Returns(_collectionMock.Object);
 
-            _mongoDbContext.Setup(d => d.Collection<Payment>()).Returns(_mongoCollection.Object);
-            _paymentRepository = new PaymentRepository(_mongoDbContext.Object);
+            _paymentRepository = new PaymentRepository(dbContextMock.Object);
         }
 
         [Fact]
@@ -39,18 +36,18 @@ namespace Tests.Repositories
                 new Payment("teste", DateTime.Now, PaymentType.Debit, 100),
             };
 
-            _cursorPayments.Setup(x => x.Current).Returns(payments);
+            _asyncCursorMock.Setup(x => x.Current).Returns(payments);
 
-            _mongoCollection.Setup(c => c.FindAsync(
+            _collectionMock.Setup(c => c.FindAsync(
                     It.IsAny<FilterDefinition<Payment>>(),
                     It.IsAny<FindOptions<Payment, Payment>>(),
                     It.IsAny<CancellationToken>()
                 ))
-                .ReturnsAsync(_cursorPayments.Object);
+                .ReturnsAsync(_asyncCursorMock.Object);
 
             var result = await _paymentRepository.GetAllTransactions();
 
-            _mongoCollection.Verify(x => x.FindAsync(
+            _collectionMock.Verify(x => x.FindAsync(
                     It.IsAny<FilterDefinition<Payment>>(),
                     It.IsAny<FindOptions<Payment, Payment>>(),
                     It.IsAny<CancellationToken>()
@@ -70,24 +67,39 @@ namespace Tests.Repositories
 
             var paymentConsolidated = new PaymentConsolidated(payments, payments.Sum(x => x.PaymentAmount));
 
-            _cursorPayments.Setup(x => x.Current)
+            _asyncCursorMock.Setup(x => x.Current)
                 .Returns(payments);
 
-            _mongoCollection.Setup(c => c.FindAsync(
+            _collectionMock.Setup(c => c.FindAsync(
                     It.IsAny<FilterDefinition<Payment>>(),
                     It.IsAny<FindOptions<Payment, Payment>>(),
                     It.IsAny<CancellationToken>()
                 ))
-                .ReturnsAsync(_cursorPayments.Object);
+                .ReturnsAsync(_asyncCursorMock.Object);
 
             var result = await _paymentRepository.GetTransactionsByReferenceDate(DateTime.Now.Date);
 
-            _mongoCollection.Verify(x => x.FindAsync(
+            _collectionMock.Verify(x => x.FindAsync(
                     It.IsAny<FilterDefinition<Payment>>(),
                     It.IsAny<FindOptions<Payment, Payment>>(),
                     It.IsAny<CancellationToken>()
                 ), Times.Once);
         }
 
+
+
+        [Fact]
+        public async Task SaveTransactionWithSuccess()
+        {
+            // Arrange
+            var payment = new Payment("teste", DateTime.Now, PaymentType.Debit, 100);
+
+            // Act
+            await _paymentRepository.SaveTransaction(payment);
+
+            // Assert
+            _collectionMock.Verify(c => c.InsertOneAsync(payment, null, default), Times.Once);
+
+        }
     }
 }
