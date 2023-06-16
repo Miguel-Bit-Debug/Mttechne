@@ -9,14 +9,17 @@ import { PaymentService } from 'src/app/services/payment.service';
 })
 export class ListPaymentsComponent {
 
-  public payments!: PaymentConsolidated;
+  public paymentConsolidated!: PaymentConsolidated;
+
   public referenceDate!: Date;
+  displayedColumns: string[] = ['Description', 'PaymentDate', 'PaymentType', 'PaymentAmount'];
+
 
   constructor(private paymentService: PaymentService) { }
 
-  public getPaymentsByReferenceDate(referenceDate: Date) {
+  public getPaymentsByReferenceDate() {
     this.paymentService.getPaymentsByReferenceDate(this.referenceDate).subscribe((res) => {
-      this.payments = res;
+      this.paymentConsolidated = res;
     })
   }
 }

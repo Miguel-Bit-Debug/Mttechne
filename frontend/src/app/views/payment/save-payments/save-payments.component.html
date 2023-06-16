@@ -1,1 +1,14 @@
-<p>save-payments works!</p>
+  <app-navbar></app-navbar>
+
+<div class="form">
+  <input type="text" [(ngModel)]="description" placeholder="Descrição do pagamento" required>
+  <input type="date" [(ngModel)]="paymentDate" placeholder="Data do pagamento" required>
+  <select required [(ngModel)]="paymentType">
+    <option selected="selected" disabled>Selecione uma opção</option>
+    <option value="1">Crédito</option>
+    <option value="2">Débito</option>
+  </select>
+  <input type="number" [(ngModel)]="paymentAmount" placeholder="Valor" required>
+
+  <button (click)="doPayment()">Realizar transação</button>
+</div>

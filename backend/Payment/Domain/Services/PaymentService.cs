@@ -28,7 +28,7 @@ namespace Domain.Services
 
         public async Task SaveTransaction(PaymentDTO paymentDTO)
         {
-            var payment = new Payment(paymentDTO.Desciption,
+            var payment = new Payment(paymentDTO.Description,
                                       paymentDTO.PaymentDate.Date,
                                       paymentDTO.PaymentType,
                                       paymentDTO.PaymentAmount);

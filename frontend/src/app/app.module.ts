@@ -7,20 +7,25 @@ import { AppComponent } from './app.component';
 import { ListPaymentsComponent } from './views/payment/list-payments/list-payments.component';
 import { SavePaymentsComponent } from './views/payment/save-payments/save-payments.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { NavbarComponent } from './components/shared/navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListPaymentsComponent,
-    SavePaymentsComponent
+    SavePaymentsComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    MatTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,23 @@
+.navbar {
+  border: none;
+  cursor: pointer;
+  display: flex;
+}
+
+.navbar a {
+  text-decoration: none;
+  margin-left: 10px;
+  color: #FFF;
+  font-size: 20px;
+  background: #7289da;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.home {
+  width: 100px;
+}
+
+.transaction {
+  width: 190px;
+}

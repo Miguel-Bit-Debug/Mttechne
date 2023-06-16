@@ -1,14 +1,39 @@
-<div>
-  <input type="date" placeholder="Data de referência" [(ngModel)]="referenceDate">
-  <button (click)="getPaymentsByReferenceDate(referenceDate)">Buscar transações</button>
+<div class="menu">
+
+  <div class="date">
+    <input type="date" placeholder="Data de referência" [(ngModel)]="referenceDate">
+    <button (click)="getPaymentsByReferenceDate()">Buscar transações por data de referência</button>
+  </div>
+
+  <app-navbar></app-navbar>
 </div>
 
-<div *ngFor="let payment of payments.payments">
-  <p>{{ payment.desciption }}</p>
-  <p>{{ payment.paymentDate }}</p>
-  <p>{{ payment.paymentDate }}</p>
-  <p>{{ payment.paymentType == 1 ? "Crédito": "Débito" }}</p>
+<div class="table-payments" *ngIf="paymentConsolidated != null">
+  <p>Saldo consolidado do dia: {{ paymentConsolidated.totalConsolidatePayment }} </p>
+
+  <table mat-table [dataSource]="paymentConsolidated.payments" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="Description">
+      <th mat-header-cell *matHeaderCellDef> Descrição </th>
+      <td mat-cell *matCellDef="let element"> {{element.description }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="PaymentDate">
+      <th mat-header-cell *matHeaderCellDef> Data </th>
+      <td mat-cell *matCellDef="let element"> {{element.paymentDate }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="PaymentType">
+      <th mat-header-cell *matHeaderCellDef> Tipo de transação </th>
+      <td mat-cell *matCellDef="let element"> {{element.paymentType == 1 ? "Crédito" : "Débito" }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="PaymentAmount">
+      <th mat-header-cell *matHeaderCellDef> Valor </th>
+      <td mat-cell *matCellDef="let element"> {{element.paymentAmount }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
 </div>
-<p>{{ payments.totalConsolidatePayment }}</p>
-
-

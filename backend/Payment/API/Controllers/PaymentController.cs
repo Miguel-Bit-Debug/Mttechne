@@ -18,17 +18,17 @@ public class PaymentController : ControllerBase
     /// <summary>
     /// Endpoint para realizar uma transação
     /// </summary>
-    /// <param name="paymentDTO"></param>
+    /// <param name="payment"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<IActionResult> DoPayment([FromBody] PaymentDTO paymentDTO)
+    public async Task<IActionResult> DoPayment([FromBody] PaymentDTO payment)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState.Select(x => x.Value?.Errors).ToList());
         }
 
-        await _paymentService.SaveTransaction(paymentDTO);
+        await _paymentService.SaveTransaction(payment);
 
         return Ok(new { message = "payment realized." });
     }

@@ -1,0 +1,50 @@
+.menu {
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu app-navbar {
+  margin: 20px;
+}
+
+.date {
+  margin-left: 10px;
+}
+
+.date input {
+  margin: 20px;
+  font-size: 20px;
+  border: 1px solid #EEEFFF00;
+  -webkit-box-shadow: 10px 6px 28px -9px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 6px 28px -9px rgba(0,0,0,0.75);
+  box-shadow: 10px 6px 28px -9px rgba(0,0,0,0.75);
+
+}
+
+.date button {
+  border: none;
+  text-align: center;
+  -webkit-box-shadow: 10px 6px 28px -9px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 6px 28px -9px rgba(0,0,0,0.75);
+  box-shadow: 10px 6px 28px -9px rgba(0,0,0,0.75);
+  color: #FFF;
+  background: #7289da;
+  font-size: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.table-payments {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.table-payments table {
+}
+
+.table-payments p {
+  text-align: center;
+  font-size: 20px;
+  color: #7289da;
+}

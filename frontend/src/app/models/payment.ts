@@ -1,11 +1,11 @@
 export class Payment {
-  public desciption: string;
+  public description: string;
   public paymentDate: Date;
   public paymentType: number;
   public paymentAmount: number;
 
-  constructor(desciption: string, paymentDate: Date,  paymentType: number, paymentAmount: number) {
-    this.desciption = desciption;
+  constructor(description: string, paymentDate: Date,  paymentType: number, paymentAmount: number) {
+    this.description = description;
     this.paymentDate = paymentDate;
     this.paymentType = paymentType;
     this.paymentAmount = paymentAmount;

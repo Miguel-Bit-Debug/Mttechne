@@ -9,13 +9,13 @@ public class Payment : Entity
                    PaymentType paymentType,
                    decimal paymentAmount)
     {
-        Desciption = desciption;
+        Description = desciption;
         PaymentDate = paymentDate;
         PaymentType = paymentType;
         PaymentAmount = paymentAmount;
     }
 
-    public string Desciption { get; private set; }
+    public string Description { get; private set; }
     public DateTime PaymentDate { get; private set; }
     public PaymentType PaymentType { get; private set; }
     public decimal PaymentAmount { get; private set; }
